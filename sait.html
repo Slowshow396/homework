@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Регистрация</h1>
+        <form id="registrationForm" action="#" method="post">
+            <input type="text" name="name" placeholder="Ваше имя" required>
+            <div id="nameError" class="error"></div>
+
+            <input type="email" name="email" placeholder="Email" required>
+            <div id="emailError" class="error"></div>
+
+            <input type="text" name="phone" placeholder="Телефон" required>
+            <div id="phoneError" class="error"></div>
+
+            <textarea name="message" placeholder="Дополнительная информация" rows="4"></textarea>
+            <div id="messageError" class="error"></div>
+
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const phoneError = document.getElementById('phoneError');
+        const messageError = document.getElementById('messageError');
+
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let isValid = true;
+
+            // Name validation
+            const name = form.elements.name.value.trim();
+            if (name === "") {
+                nameError.textContent = "Поле 'Имя' обязательно для заполнения.";
+                isValid = false;
+            } else {
+                nameError.textContent = "";
+            }
+
+
+            // Email validation
+            const email = form.elements.email.value.trim();
+            if (email === "" || !isValidEmail(email)) {
+                emailError.textContent = "Введите корректный email.";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            //Phone validation
+            const phone = form.elements.phone.value.trim();
+            if (phone === "") {
+                phoneError.textContent = "Поле 'Телефон' обязательно для заполнения.";
+                isValid = false;
+            } else {
+                phoneError.textContent = "";
+            }
+
+            //Message validation (optional)
+
+            if (isValid) {
+                //Here you would handle successful form submission, e.g., send data to server
+                alert('Данные отправлены!'); // Replace with your actual submission logic
+            }
+        });
+
+        function isValidEmail(email) {
+            //Basic email validation regex.  More robust checks may be needed for production.
+            return /\S+@\S+\.\S+/.test(email);
+        }
+    </script>
+</body>
+</html>
