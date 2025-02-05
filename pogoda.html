@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погода</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            text-align: center;
+            padding: 50px;
+            color: white;
+        }
+        h1 {
+            font-size: 2.5em;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+        }
+        input {
+            width: 250px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+    <script>
+        async function getWeather() {
+            const apiKey = 'fdfb20501f974ab47e9e3686939601c2'; // Замените на ваш API-ключ
+            const city = document.getElementById('city').value.trim();
+            if (!city) {
+                document.getElementById('result').innerHTML = `<p style="color:red;">Введите название города</p>`;
+                return;
+            }
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru`;
+            
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Город не найден');
+                }
+                const data = await response.json();
+                document.getElementById('result').innerHTML = 
+                    `<h2>Погода в ${data.name}</h2>
+                     <p>Температура: ${data.main.temp}°C</p>
+                     <p>Ощущается как: ${data.main.feels_like}°C</p>
+                     <p>Влажность: ${data.main.humidity}%</p>
+                     <p>Погодные условия: ${data.weather[0].description}</p>`;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p style="color:red;">Ошибка: ${error.message}</p>`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Узнайте погоду</h1>
+    <input type="text" id="city" placeholder="Введите город">
+    <button onclick="getWeather()">Получить погоду</button>
+    <div id="result"></div>
+</body>
+</html>
